@@ -9,7 +9,7 @@ Your executive director and her leadership team members are looking to understan
 You’ve been able to find tables of data online dealing with forestation as well as total land area and region groupings, and you’ve brought these tables together into a database that you’d like to query to answer some of the most important questions in preparation for a meeting with the ForestQuery executive team coming up in a few days. Ahead of the meeting, you’d like to prepare and disseminate a report for the leadership team that uses complete sentences to help them understand the global deforestation overview between 1990 and 2016.
 
 ### CREATE VIEW
-...
+```
 DROP VIEW IF EXISTS forestation;
 
 CREATE VIEW forestation  
@@ -28,5 +28,5 @@ GROUP BY 1,2,3,4,5,6,7);
  
 SELECT * 
 FROM forestation;
-...
+```
 
