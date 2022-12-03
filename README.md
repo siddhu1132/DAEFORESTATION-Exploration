@@ -10,5 +10,5 @@ You’ve been able to find tables of data online dealing with forestation as wel
 
 # CREATE VIEW
 <p align="center">
-  <img src="images/1.png" width="350" title="Create_view">
+  <img src="Images/1.png" width="350" title="Create_view">
 </p>
