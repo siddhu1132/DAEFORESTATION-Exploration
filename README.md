@@ -210,3 +210,134 @@ WHERE fp1990.percent_forest_area > fp2016.percent_forest_area
 GROUP BY 1,2,3;
 ```
 ![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_c.png)
+
+## PART 3 : CoOUNTRY-LEVEL DETAILS
+
+a) _Which 5 countries saw the largest amount decrease in forest area from 1990 to 2016? What was the difference in forest area for each?_
+
+```sql
+WITH forest_change_1990
+AS
+(SELECT region, country_name, SUM(forest_area_sqkm) AS total_forest_area1
+FROM forestation
+WHERE year = 1990
+GROUP BY 1,2),
+
+forest_change_2016
+AS
+(SELECT region, country_name, SUM(forest_area_sqkm) AS total_forest_area2
+FROM forestation
+WHERE year = 2016
+GROUP BY 1,2)
+
+SELECT f1.country_name, f1.region, ROUND((f1.total_forest_area1-f2.total_forest_area2)::NUMERIC,2) AS forest_change_sqkm
+FROM forest_change_1990 f1
+JOIN forest_change_2016 f2                                         ON f1.country_name = f2.country_name
+AND (f1.total_forest_area1 IS NOT NULL AND f2.total_forest_area2 IS NOT NULL) AND f1.region != 'World'
+ORDER BY 3 DESC                                                     
+LIMIT 5; 
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/CL_a.png)
+
+b) _Which 5 countries saw the largest percent decrease in forest area from 1990 to 2016? What was the percent change to 2 decimal places for each?_
+
+```sql
+WITH forest_change_1990
+AS
+(SELECT region, country_name, SUM(forest_area_sqkm) AS total_forest_area1
+FROM forestation
+WHERE year = 1990
+GROUP BY 1,2),
+
+forest_change_2016
+AS
+(SELECT region, country_name, SUM(forest_area_sqkm) AS total_forest_area2
+FROM forestation
+WHERE year = 2016
+GROUP BY 1,2)
+
+SELECT f1.country_name, f1.region, ROUND((((f1.total_forest_area1-f2.total_forest_area2)/(f1.total_forest_area1))*100)::NUMERIC,2) AS percent_forest_change
+FROM forest_change_1990 f1
+JOIN forest_change_2016 f2                                         ON f1.country_name = f2.country_name
+AND (f1.total_forest_area1 IS NOT NULL AND f2.total_forest_area2 IS NOT NULL) AND f1.region != 'World'
+ORDER BY 3 DESC                                                     
+LIMIT 5;
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/CL_b.png)
+
+c) _If countries were grouped by percent forestation in quartiles, which group had the most countries in it in 2016?_
+
+```sql
+WITH fc2016
+AS
+(SELECT region, country_name, ROUND(((SUM(forest_area_sqkm)/SUM(total_area_sqkm))*100)::NUMERIC, 2) AS percent_forestation
+FROM forestation
+WHERE year = 2016 AND region != 'World' AND forest_area_sqkm IS NOT NULL AND total_area_sqkm IS NOT NULL
+GROUP BY 1,2),
+quartiles
+AS
+(SELECT fc2016.region, fc2016.country_name,
+ CASE WHEN fc2016.percent_forestation >= 75 THEN '75%-100%'
+ 	  WHEN fc2016.percent_forestation BETWEEN 50 AND 75 THEN '50%-75%'       
+      WHEN fc2016.percent_forestation BETWEEN 25 AND 50 THEN '25%-75%'
+      WHEN fc2016.percent_forestation <= 25 THEN '0-25%'
+ 	  END AS percentile
+ FROM fc2016
+ ORDER BY 3 DESC)
+ 
+ SELECT quartiles.percentile AS Quartiles,
+ 		COUNT(quartiles.percentile) AS number_of_countries
+FROM quartiles
+GROUP BY 1
+ORDER BY 2 DESC;
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/CL_c.png)
+
+d) _List all of the countries that were in the 4th quartile (percent forest > 75%) in 2016._
+
+```sql
+WITH fc2016
+AS
+(SELECT region, country_name, ROUND(((SUM(forest_area_sqkm)/SUM(total_area_sqkm))*100)::NUMERIC, 2) AS percent_forestation
+FROM forestation
+WHERE year = 2016 AND region != 'World' AND forest_area_sqkm IS NOT NULL AND total_area_sqkm IS NOT NULL
+GROUP BY 1,2),
+quartiles
+AS
+(SELECT fc2016.region, fc2016.country_name,
+ CASE WHEN fc2016.percent_forestation >= 75 THEN '75%-100%'
+ 	  WHEN fc2016.percent_forestation BETWEEN 50 AND 75 THEN '50%-75%'       
+      WHEN fc2016.percent_forestation BETWEEN 25 AND 50 THEN '25%-75%'
+      WHEN fc2016.percent_forestation <= 25 THEN '0-25%'
+ 	  END AS percentile
+ FROM fc2016
+ ORDER BY 3 DESC)
+ 
+SELECT quartiles.country_name, quartiles.region,
+ROUND((fc2016.percent_forestation)::NUMERIC, 2) AS Pct_Designated_Forest 
+FROM quartiles 
+JOIN fc2016 
+ON fc2016.country_name = quartiles.country_name
+WHERE quartiles.percentile = '75%-100%'
+GROUP BY 1,2,3
+ORDER BY 1;
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/CL_d.png)
+
+e) _How many countries had a percent forestation higher than the United States in 2016?_
+
+```sql
+WITH fc2016
+AS
+(SELECT region, country_name, ROUND(((SUM(forest_area_sqkm)/SUM(total_area_sqkm))*100)::NUMERIC, 2) AS percent_forestation
+FROM forestation
+WHERE year = 2016 AND region != 'World' AND forest_area_sqkm IS NOT NULL AND total_area_sqkm IS NOT NULL
+GROUP BY 1,2)
+
+SELECT COUNT(fc2016.country_name) AS no_countries
+FROM fc2016
+WHERE fc2016.percent_forestation > (SELECT fc2016.percent_forestation FROM fc2016
+WHERE country_name = 'United States');
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/CL_e.png)
+
