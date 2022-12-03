@@ -46,6 +46,8 @@ WHERE year = 1990 AND country_name = 'World')
 
 SELECT * FROM total_forest_Area_1990;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/GS_a.png)
+
 b) _What was the total forest area (in sq km) of the world in 2016? Please keep in mind that you can use the country record in the table is denoted as "World"?_
 
 ```sql
@@ -56,6 +58,8 @@ WHERE year = 2016 AND country_name = 'World')
 
 SELECT * FROM total_forest_Area_2016;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/GS_b.png)
+
 c) _What was the change (in sq km) in the forest area of the world from 1990 to 2016?_
 
 ```sql
@@ -69,6 +73,7 @@ WHERE year = 2016 AND country_name = 'World') AS change_in_forest_area
 FROM forestation
 LIMIT 1;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/GS_c.png)
 
 d) _What was the percent change in forest area of the world between 1990 and 2016?_
 
@@ -86,6 +91,7 @@ WHERE year = 1990 AND country_name = 'World'))*100 AS percent_change_in_forest_a
 FROM forestation
 LIMIT 1;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/GS_d.png)
 
 e) _If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?_
 
@@ -104,6 +110,7 @@ GROUP BY 1,2
 ORDER BY 3
 LIMIT 1;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/GS_e.png)
 
 ## PART 2 : REGIONAL OUTLOOK
 
@@ -122,17 +129,24 @@ ORDER BY 2 DESC)
 -- the percent forest of the entire world in 2016
 SELECT * FROM forest_percentage_2016
 WHERE region = 'World';
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_a1.png)
 
+```sql
 -- Which region had the HIGHEST percent forest in 2016
 SELECT * FROM forest_percentage_2016
 ORDER BY 2 DESC
 LIMIT 1;
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_a2.png)
 
+```sql
 -- which had the LOWEST, to 2 decimal places
 SELECT * FROM forest_percentage_2016
 ORDER BY 2
 LIMIT 1;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_a3.png)
 
 b) _What was the percent forest of the entire world in 1990? Which region had the HIGHEST percent forest in 1990, and which had the LOWEST, to 2 decimal places?_
 
@@ -149,17 +163,24 @@ ORDER BY 2 DESC)
 -- the percent forest of the entire world in 1990
 SELECT * FROM forest_percentage_1990
 WHERE region = 'World';
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_b1.png)
 
+```sql
 -- Which region had the HIGHEST percent forest in 1990
 SELECT * FROM forest_percentage_1990
 ORDER BY 2 DESC
 LIMIT 1;
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_b2.png)
 
+```sql
 -- which had the LOWEST, to 2 decimal places
 SELECT * FROM forest_percentage_1990
 ORDER BY 2
 LIMIT 1;
 ```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_b3.png)
 
 c) _Based on the table you created, which regions of the world DECREASED in forest area from 1990 to 2016?_
 
@@ -187,3 +208,5 @@ JOIN forest_percentage_2016 AS fp2016
 ON fp1990.region = fp2016.region
 WHERE fp1990.percent_forest_area > fp2016.percent_forest_area
 GROUP BY 1,2,3;
+```
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_c.png)
