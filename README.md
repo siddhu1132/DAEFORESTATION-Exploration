@@ -1,4 +1,5 @@
 # DEFORESTATION-Exploration
+This is aproject in SQL degree program from UDACITY.
 
 ## Introduction
 Introduction
@@ -8,10 +9,14 @@ Your executive director and her leadership team members are looking to understan
 
 You’ve been able to find tables of data online dealing with forestation as well as total land area and region groupings, and you’ve brought these tables together into a database that you’d like to query to answer some of the most important questions in preparation for a meeting with the ForestQuery executive team coming up in a few days. Ahead of the meeting, you’d like to prepare and disseminate a report for the leadership team that uses complete sentences to help them understand the global deforestation overview between 1990 and 2016.
 
+## Table of contents
+1. The pdf file **deforestation-exploration-project.pdf** is the project report.
+2. **images** folder contains images of the outputs of all the queries which I have ran.
+
 ## CREATE VIEW
 
 ```sql
-
+-- Create a View called “forestation” by joining all three tables - forest_area, land_area and regions.
 DROP VIEW IF EXISTS forestation;
 
 CREATE VIEW forestation  
@@ -211,7 +216,7 @@ GROUP BY 1,2,3;
 ```
 ![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/RO_c.png)
 
-## PART 3 : CoOUNTRY-LEVEL DETAILS
+## PART 3 : COUNTRY-LEVEL DETAILS
 
 a) _Which 5 countries saw the largest amount decrease in forest area from 1990 to 2016? What was the difference in forest area for each?_
 
