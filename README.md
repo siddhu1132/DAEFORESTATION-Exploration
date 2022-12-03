@@ -32,7 +32,8 @@ SELECT *
 FROM forestation;
 
 ```
-![](https://github.com/siddhu1132/Deforestation-Exploration/Images/1.png)
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/Images/1.png)
+
 ## PART 1 : GLOBAL SITUATION
 
 a) _What was the total forest area (in sq km) of the world in 1990? Please keep in mind that you can use the country record denoted as "World" in the region table.?_
