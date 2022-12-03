@@ -8,7 +8,7 @@ Your executive director and her leadership team members are looking to understan
 
 You’ve been able to find tables of data online dealing with forestation as well as total land area and region groupings, and you’ve brought these tables together into a database that you’d like to query to answer some of the most important questions in preparation for a meeting with the ForestQuery executive team coming up in a few days. Ahead of the meeting, you’d like to prepare and disseminate a report for the leadership team that uses complete sentences to help them understand the global deforestation overview between 1990 and 2016.
 
-##CREATE VIEW
+## CREATE VIEW
 
 ```sql
 
@@ -32,6 +32,7 @@ SELECT *
 FROM forestation;
 
 ```
+![](https://github.com/siddhu1132/Deforestation-Exploration/Images/1.png)
 ## PART 1 : GLOBAL SITUATION
 
 a) _What was the total forest area (in sq km) of the world in 1990? Please keep in mind that you can use the country record denoted as "World" in the region table.?_
@@ -105,7 +106,7 @@ LIMIT 1;
 
 ## PART 2 : REGIONAL OUTLOOK
 
-a) _What was the percent forest of the entire world in 2016? Which region had the HIGHEST percent forest in 2016, and which had the LOWEST, to 2 decimal places?
+a) _What was the percent forest of the entire world in 2016? Which region had the HIGHEST percent forest in 2016, and which had the LOWEST, to 2 decimal places?_
 
 ```sql
 WITH forest_percentage_2016
@@ -132,7 +133,7 @@ ORDER BY 2
 LIMIT 1;
 ```
 
-b) _What was the percent forest of the entire world in 1990? Which region had the HIGHEST percent forest in 1990, and which had the LOWEST, to 2 decimal places?
+b) _What was the percent forest of the entire world in 1990? Which region had the HIGHEST percent forest in 1990, and which had the LOWEST, to 2 decimal places?_
 
 ```sql
 WITH forest_percentage_1990
@@ -159,7 +160,7 @@ ORDER BY 2
 LIMIT 1;
 ```
 
-c) _Based on the table you created, which regions of the world DECREASED in forest area from 1990 to 2016?
+c) _Based on the table you created, which regions of the world DECREASED in forest area from 1990 to 2016?_
 
 ```sql
 WITH forest_percentage_2016
