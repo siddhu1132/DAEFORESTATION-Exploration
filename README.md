@@ -31,4 +31,73 @@ SELECT *
 FROM forestation;
 
 ```
+## PART 1 : GLOBAL SITUATION
 
+- _What was the total forest area (in sq km) of the world in 1990? Please keep in mind that you can use the country record denoted as "World" in the region table.?_
+- 
+```sql
+WITH total_forest_area_1990 AS 
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 1990 AND country_name = 'World')
+
+SELECT * FROM total_forest_Area_1990;
+```
+- _What was the total forest area (in sq km) of the world in 2016? Please keep in mind that you can use the country record in the table is denoted as "World"?_
+- 
+```sql
+WITH total_forest_area_2016 AS 
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 2016 AND country_name = 'World')
+
+SELECT * FROM total_forest_Area_2016;
+```
+-_What was the change (in sq km) in the forest area of the world from 1990 to 2016?_
+
+```sql
+SELECT 
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 1990 AND country_name = 'World') - 
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 2016 AND country_name = 'World') AS change_in_forest_area 
+FROM forestation
+LIMIT 1;
+```
+
+-_What was the percent change in forest area of the world between 1990 and 2016?_
+
+```sql
+SELECT 
+(((SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 1990 AND country_name = 'World') -
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 2016 AND country_name = 'World')) /
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 1990 AND country_name = 'World'))*100 AS percent_change_in_forest_area
+FROM forestation
+LIMIT 1;
+```
+
+-_If you compare the amount of forest area lost between 1990 and 2016, to which country's total area in 2016 is it closest to?_
+
+```sql
+SELECT country_name, total_area_sqkm, 
+ABS((total_area_sqkm - (SELECT 
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 1990 AND country_name = 'World') - 
+(SELECT SUM(forest_area_sqkm) AS total_forest_area_sqkm
+FROM forest_area
+WHERE year = 2016 AND country_name = 'World')))) AS forest_area_lost
+FROM forestation
+WHERE year = 2016
+GROUP BY 1,2
+ORDER BY 3
+LIMIT 1;
+```
