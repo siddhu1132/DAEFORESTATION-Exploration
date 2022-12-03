@@ -32,7 +32,7 @@ SELECT *
 FROM forestation;
 
 ```
-![](https://github.com/siddhu1132/DEFORESTATION-Exploration/Images/1.png)
+![](https://github.com/siddhu1132/DEFORESTATION-Exploration/blob/main/Images/1.png)
 
 ## PART 1 : GLOBAL SITUATION
 
